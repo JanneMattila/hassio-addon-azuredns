@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/with-contenv bashio
 
 # Variables
 AAD_TENANT_ID="<your_tenant_id>"
