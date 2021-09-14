@@ -39,9 +39,10 @@ Following configuration parameters are required:
 
 ```yaml
 seconds: 3600
-aad_tenant_dd: "<your_tenant_id>"
-aad_client_id: "<your_app_id>"
-aad_client_secret: "<your_app_secret>"
+azure_ad:
+  tenant_id: "<your_tenant_id>"
+  client_id: "<your_app_id>"
+  client_secret: "<your_app_secret>"
 dns_zone_id: "/subscriptions/<your_sub_id>/resourceGroups/<your_rg>/providers/Microsoft.Network/dnszones/<your_dns_zone>"
 record_type: "A"
 record_name: "demo1"
@@ -51,10 +52,44 @@ Configuration with example values for `homeassistant.contoso.com`:
 
 ```yaml
 seconds: 3600
-aad_tenant_dd: "41476b44-ef0d-4e69-b957-04ed8f1dfc04"
-aad_client_id: "55676858-5756-4718-b0bd-22e10c2451d3"
-aad_client_secret: "~05T0a3D1qRPs..4FML7NH6O.Kv~aMfKTQ"
+azure_ad:
+  tenant_id: "41476b44-ef0d-4e69-b957-04ed8f1dfc04"
+  client_id: "55676858-5756-4718-b0bd-22e10c2451d3"
+  client_secret: "~05T0a3D1qRPs..4FML7NH6O.Kv~aMfKTQ"
 dns_zone_id: "/subscriptions/7752d7ac-47a0-43aa-9d43-e7329e5be325/resourceGroups/rg-domain/providers/Microsoft.Network/dnszones/contoso.com"
 record_type: "A"
 record_name: "homeassistant"
 ```
+
+### Option: `seconds` (required)
+
+Interval of the update check in seconds e.g., 3600 means do the update check once every hour.
+
+### Option group `azure_ad`
+
+The following options are for the option group: `azure_ad`.
+These settings define the use service principal from Azure AD.
+
+#### Option: `tenant_id` (required)
+
+TBA
+
+#### Option: `client_id` (required)
+
+TBA
+
+#### Option: `client_secret` (required)
+
+TBA
+
+### Option: `dns_zone_id` (required)
+
+TBD
+
+### Option: `record_type` (required)
+
+TBA
+
+### Option: `record_name` (required)
+
+TBA

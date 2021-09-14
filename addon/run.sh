@@ -4,9 +4,9 @@ set -e
 # Variables
 SECONDS=$(bashio::config 'seconds')
 
-AAD_TENANT_ID=$(bashio::config 'aad_tenant_dd')
-AAD_CLIEND_ID=$(bashio::config 'aad_client_id')
-AAD_CLIEND_SECRET=$(bashio::config 'aad_client_secret')
+AAD_TENANT_ID=$(bashio::config 'azure_ad.tenant_id')
+AAD_CLIEND_ID=$(bashio::config 'azure_ad.client_id')
+AAD_CLIEND_SECRET=$(bashio::config 'azure_ad.client_secret')
 
 DNS_ZONE_ID=$(bashio::config 'dns_zone_id')
 RECORD_TYPE=$(bashio::config 'record_type')
