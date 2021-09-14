@@ -13,18 +13,18 @@ startup: application
 boot: auto
 options:
   seconds: 3600
-  aadTenantId: "<your_tenant_id>"
-  aadClientId: "<your_app_id>"
-  aadClientSecret: "<your_app_secret>"
-  dnsZoneID: "/subscriptions/<your_sub_id>/resourceGroups/<your_rg>/providers/Microsoft.Network/dnszones/<your_dns_zone>"
-  recordType: "A"
-  recordName: "demo1"
+  aad_tenant_dd: "<your_tenant_id>"
+  aad_client_id: "<your_app_id>"
+  aad_client_secret: "<your_app_secret>"
+  dns_zone_id: "/subscriptions/<your_sub_id>/resourceGroups/<your_rg>/providers/Microsoft.Network/dnszones/<your_dns_zone>"
+  record_type: "A"
+  record_name: "demo1"
 schema:
   seconds: int
-  aadTenantId: str
-  aadClientId: str
-  aadClientSecret: password
-  dnsZoneID: str
-  recordType: str
-  recordName: str
+  aad_tenant_dd: str
+  aad_client_id: str
+  aad_client_secret: password
+  dns_zone_id: str
+  record_type: str
+  record_name: str
 image: jannemattila/azure-dns-zone-updater-{arch}

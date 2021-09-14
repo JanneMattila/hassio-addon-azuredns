@@ -4,13 +4,14 @@ set -e
 # Variables
 SECONDS=$(bashio::config 'seconds')
 
-AAD_TENANT_ID=$(bashio::config 'aadTenantId')
-AAD_CLIEND_ID=$(bashio::config 'aadClientId')
-AAD_CLIEND_SECRET=$(bashio::config 'aadClientSecret')
+AAD_TENANT_ID=$(bashio::config 'aad_tenant_dd')
+AAD_CLIEND_ID=$(bashio::config 'aad_client_id')
+AAD_CLIEND_SECRET=$(bashio::config 'aad_client_secret')
 
-DNS_ZONE_ID=$(bashio::config 'dnsZoneID')
-RECORD_TYPE=$(bashio::config 'recordType')
-RECORD_NAME=$(bashio::config 'recordName')
+DNS_ZONE_ID=$(bashio::config 'dns_zone_id')
+RECORD_TYPE=$(bashio::config 'record_type')
+RECORD_NAME=$(bashio::config 'record_name')
+
 RESOURCE_ID=$DNS_ZONE_ID/$RECORD_TYPE/$RECORD_NAME
 
 while true; do
