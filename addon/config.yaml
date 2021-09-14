@@ -12,6 +12,7 @@ arch:
 startup: application
 boot: auto
 options:
+  seconds: 3600
   aadTenantId: "<your_tenant_id>"
   aadClientId: "<your_app_id>"
   aadClientSecret: "<your_app_secret>"
@@ -19,6 +20,7 @@ options:
   recordType: "A"
   recordName: "demo1"
 schema:
+  seconds: int
   aadTenantId: str
   aadClientId: str
   aadClientSecret: password
