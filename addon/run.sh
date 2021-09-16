@@ -2,7 +2,20 @@
 set -e
 
 # Variables
+bashio::config.require 'seconds'
+bashio::config.require 'azure_ad.tenant_id'
+bashio::config.require 'azure_ad.client_id'
+bashio::config.require 'azure_ad.client_secret'
+bashio::config.require 'dns_zone_id'
+bashio::config.require 'record_type'
+bashio::config.require 'record_name'
+
 SECONDS=$(bashio::config 'seconds')
+if test "$SECONDS" -ge 10; then
+    PREVIOUS_SECONDS=$SECONDS
+    SECONDS=10
+    bashio::log.warning "Changing the update frequency to $SECONDS seconds from $PREVIOUS_SECONDS."
+fi
 
 AAD_TENANT_ID=$(bashio::config 'azure_ad.tenant_id')
 AAD_CLIEND_ID=$(bashio::config 'azure_ad.client_id')

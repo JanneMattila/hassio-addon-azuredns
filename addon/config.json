@@ -1,0 +1,39 @@
+{
+  "name": "Azure DNS Zone Updater",
+  "version": "1",
+  "slug": "azure_dns_zone_updater",
+  "description": "Azure DNS Zone updater add-on for Home Assistant",
+  "url": "https://github.com/JanneMattila/hassio-addon-azuredns",
+  "arch": [
+    "armhf",
+    "armv7",
+    "aarch64",
+    "amd64",
+    "i386"
+  ],
+  "startup": "application",
+  "boot": "auto",
+  "options": {
+    "seconds": 3600,
+    "azure_ad": {
+      "tenant_id": "<your_tenant_id>",
+      "client_id": "<your_app_id>",
+      "client_secret": "<your_app_secret>"
+    },
+    "dns_zone_id": "/subscriptions/<your_sub_id>/resourceGroups/<your_rg>/providers/Microsoft.Network/dnszones/<your_dns_zone>",
+    "record_type": "A",
+    "record_name": "demo1"
+  },
+  "schema": {
+    "seconds": "int",
+    "azure_ad": {
+      "tenant_id": "str",
+      "client_id": "str",
+      "client_secret": "password"
+    },
+    "dns_zone_id": "str",
+    "record_type": "str",
+    "record_name": "str"
+  },
+  "image": "jannemattila/azure-dns-zone-updater-{arch}"
+}
