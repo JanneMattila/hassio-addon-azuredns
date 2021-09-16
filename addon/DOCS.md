@@ -90,24 +90,28 @@ These settings define the use service principal from Azure AD.
 
 #### Option: `tenant_id` (required)
 
-TBA
+This is Azure AD tenant id.
 
 #### Option: `client_id` (required)
 
-TBA
+This is your app registrations application id.
 
 #### Option: `client_secret` (required)
 
-TBA
+This is your app registrations secret.
 
 ### Option: `dns_zone_id` (required)
 
-TBD
+This is Azure Resource ID of your DNS Zone instance.
 
 ### Option: `record_type` (required)
 
-TBA
+This DNS Zone Record type of the target record to be updated.
+Typically this is "A".
 
 ### Option: `record_name` (required)
 
-TBA
+This is the target record name in your DNS Zone to update.
+If your DNS Zone is `contoso.com` and this is `home`
+then target fully qualified domain name (FQDN) would be
+`home.contoso.com`.
