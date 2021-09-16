@@ -11,10 +11,10 @@ bashio::config.require 'record_type'
 bashio::config.require 'record_name'
 
 SECONDS=$(bashio::config 'seconds')
-if test "$SECONDS" -lt 10; then
+if test "$SECONDS" -lt 60; then
     PREVIOUS_SECONDS=$SECONDS
-    SECONDS=10
-    bashio::log.warning "Changing the update frequency to $SECONDS seconds from $PREVIOUS_SECONDS."
+    SECONDS=60
+    bashio::log.warning "Changing the update frequency from $PREVIOUS_SECONDS seconds to $SECONDS seconds."
 fi
 
 AAD_TENANT_ID=$(bashio::config 'azure_ad.tenant_id')
@@ -27,19 +27,46 @@ RECORD_NAME=$(bashio::config 'record_name')
 
 RESOURCE_ID=$DNS_ZONE_ID/$RECORD_TYPE/$RECORD_NAME
 
+FAILURES=0
+
 while true; do
+    if test "$FAILURES" -ge 10; then
+        bashio::exit.nok "Failed $FAILURES times. Closing due to too many errors."
+    fi
+
     bashio::log.info "Azure DNS Zone updater check starting..."
 
     MY_IP=$(curl --no-progress-meter https://api.ipify.org)
     bashio::log.info "Current public IP: $MY_IP"
 
+    bashio::log.trace "Logging in..."
+
     BODY="client_id=$AAD_CLIEND_ID&client_secret=$AAD_CLIEND_SECRET&scope=https://management.azure.com/.default&grant_type=client_credentials"
-    ACCESS_TOKEN=$(curl --no-progress-meter -H "Content-Type: application/x-www-form-urlencoded" --data "$BODY" "https://login.microsoftonline.com/$AAD_TENANT_ID/oauth2/v2.0/token" | jq -r .access_token)
-    CURRENT_IP=$(curl --no-progress-meter -H "Authorization: Bearer $ACCESS_TOKEN" "https://management.azure.com$RESOURCE_ID?api-version=2018-05-01" | jq -r .properties.ARecords[0].ipv4Address)
+    ACCESS_TOKEN=$(curl --no-progress-meter --silent -H "Content-Type: application/x-www-form-urlencoded" --data "$BODY" "https://login.microsoftonline.com/$AAD_TENANT_ID/oauth2/v2.0/token" | jq -r .access_token)
+    if test -z "$ACCESS_TOKEN" -o "$ACCESS_TOKEN" = "null"; then
+        LOGIN_RETRY=600
+        FAILURES=$((FAILURES + 1))
+        bashio::log.warning "Could not get the access token. Tried $FAILURES times. Trying again in $LOGIN_RETRY seconds."
+        sleep "$LOGIN_RETRY"
+        continue
+    fi
+
+    bashio::log.trace "Fetching current IP from Azure DNS Zone..."
+
+    CURRENT_IP=$(curl --no-progress-meter --silent -H "Authorization: Bearer $ACCESS_TOKEN" "https://management.azure.com$RESOURCE_ID?api-version=2018-05-01" | jq -r .properties.ARecords[0].ipv4Address)
+    if test -z "$CURRENT_IP" -o "$CURRENT_IP" = "null"; then
+        RESOURCE_RETRY=600
+        FAILURES=$((FAILURES + 1))
+        bashio::log.warning "Could not get the DNS Zone Record. Tried $FAILURES times. Trying again in $RESOURCE_RETRY seconds."
+        sleep "$RESOURCE_RETRY"
+        continue
+    fi
+
+    FAILURES=0
     bashio::log.info "Current IP in DNS Zone: $CURRENT_IP"
 
     if test "$CURRENT_IP" = "$MY_IP"; then
-        bashio::log.info "IP address match, so no need to update DNS Zone"
+        bashio::log.info "IP address match, so no need to update DNS Zone Record."
     else
         bashio::log.info "DNS Zone update is required due to updated public IP address"
         # https://docs.microsoft.com/en-us/rest/api/dns/record-sets/update#patch-a-recordset
@@ -48,5 +75,6 @@ while true; do
         bashio::log.info "IP Update state: $STATUS"
     fi
 
+    bashio::log.info "Checking again in $SECONDS seconds."
     sleep "$SECONDS"
 done
