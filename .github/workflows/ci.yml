@@ -16,4 +16,4 @@ jobs:
             --test \
             --all \
             --target addon \
-            --docker-hub JanneMattila
+            --docker-hub jannemattila
