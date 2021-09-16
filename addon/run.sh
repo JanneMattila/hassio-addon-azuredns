@@ -11,7 +11,7 @@ bashio::config.require 'record_type'
 bashio::config.require 'record_name'
 
 SECONDS=$(bashio::config 'seconds')
-if test "$SECONDS" -ge 10; then
+if test "$SECONDS" -lt 10; then
     PREVIOUS_SECONDS=$SECONDS
     SECONDS=10
     bashio::log.warning "Changing the update frequency to $SECONDS seconds from $PREVIOUS_SECONDS."
