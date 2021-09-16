@@ -19,6 +19,8 @@ selected record.
 
 Here is example [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) example how to set up the permissions:
 
+Bash:
+
 ```bash
 # Your Client ID of the app registration
 AAD_CLIEND_ID="<client id here>"
@@ -31,6 +33,22 @@ RESOURCE_ID=$DNS_ZONE_ID/$RECORD_TYPE/$RECORD_NAME
 
 # Create role assingment
 az role assignment create --role "DNS Zone Contributor" --assignee $AAD_CLIEND_ID --scope $RESOURCE_ID
+```
+
+PowerShell:
+
+```powershell
+# Your Client ID of the app registration
+$AAD_CLIEND_ID="<client id here>"
+
+# Copy your Azure DNS Zone Resource ID here:
+$DNS_ZONE_ID="/subscriptions/<your_sub_id>/resourceGroups/<your_rg>/providers/Microsoft.Network/dnszones/<your_dns_zone>"
+$RECORD_TYPE="A"
+$RECORD_NAME="demo1"
+$RESOURCE_ID="$DNS_ZONE_ID/$RECORD_TYPE/$RECORD_NAME"
+
+# Create role assingment
+New-AzRoleAssignment -RoleDefinitionName "DNS Zone Contributor" -ApplicationId $AAD_CLIEND_ID -Scope $RESOURCE_ID
 ```
 
 ## Configuration
