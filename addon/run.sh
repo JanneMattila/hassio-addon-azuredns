@@ -10,11 +10,11 @@ bashio::config.require 'dns_zone_id'
 bashio::config.require 'record_type'
 bashio::config.require 'record_name'
 
-SECONDS=$(bashio::config 'seconds')
-if test "$SECONDS" -lt 60; then
-    PREVIOUS_SECONDS=$SECONDS
-    SECONDS=60
-    bashio::log.warning "Changing the update frequency from $PREVIOUS_SECONDS seconds to $SECONDS seconds."
+UPDATE_FREQUENCY=$(bashio::config 'seconds')
+if test "$UPDATE_FREQUENCY" -lt 60; then
+    PREVIOUS_UPDATE_FREQUENCY=$UPDATE_FREQUENCY
+    UPDATE_FREQUENCY=60
+    bashio::log.warning "Changing the update frequency from $PREVIOUS_UPDATE_FREQUENCY seconds to $UPDATE_FREQUENCY seconds."
 fi
 
 AAD_TENANT_ID=$(bashio::config 'azure_ad.tenant_id')
@@ -75,6 +75,6 @@ while true; do
         bashio::log.info "IP Update state: $STATUS"
     fi
 
-    bashio::log.info "Checking again in $SECONDS seconds."
-    sleep "$SECONDS"
+    bashio::log.info "Checking again in $UPDATE_FREQUENCY seconds."
+    sleep "$UPDATE_FREQUENCY"
 done
