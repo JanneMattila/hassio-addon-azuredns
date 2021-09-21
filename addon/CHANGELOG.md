@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.4
+
+- Release automation testing
+
 ## 0.0.3
 
 - Release automation testing

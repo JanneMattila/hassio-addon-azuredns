@@ -1,6 +1,6 @@
 {
   "name": "Azure DNS Zone Updater",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "slug": "azure_dns_zone_updater",
   "description": "Azure DNS Zone updater add-on for Home Assistant",
   "url": "https://github.com/JanneMattila/hassio-addon-azuredns",
